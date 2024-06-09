@@ -22,6 +22,6 @@ class ContactController extends Controller
     public function store(ContactUsRequest $request) {
         
         
-        return redirect(route('dashboard.index'));
+        return redirect(route('dashboard'));
     }
 }
