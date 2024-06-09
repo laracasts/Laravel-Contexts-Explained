@@ -14,9 +14,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        $activeAccount = session('active_account');
-
-        return view('dashboard', compact('activeAccount'));
+        return view('dashboard');
     })->name('dashboard');
 
 
