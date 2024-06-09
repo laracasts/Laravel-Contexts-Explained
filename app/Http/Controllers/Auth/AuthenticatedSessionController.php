@@ -29,11 +29,7 @@ class AuthenticatedSessionController extends Controller
 
         $defaultAccount = $request->user()->accounts()->first();
         
-        session([
-            'active_account_id' => $defaultAccount->id,
-            'active_account_number' => $defaultAccount->account_number,
-            'active_account_name' => $defaultAccount->name,
-        ]);
+        session(['active_account' => $defaultAccount]);
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

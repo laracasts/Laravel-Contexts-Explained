@@ -14,7 +14,7 @@ class AccountController extends Controller
 {
     public function index() : View {
         $accounts = request()->user()->accounts()->get();
-        $activeAccount = session('active_account_id');
+        $activeAccount = session('active_account');
 
         return view('accounts.index', compact('accounts', 'activeAccount'));
     }
@@ -25,11 +25,7 @@ class AccountController extends Controller
         $account = $request->user()->accounts()->where('account_id', $accountId)->first();
 
         if ($account) {
-            session([
-                'active_account_id' => $account->id,
-                'active_account_number' => $account->account_number,
-                'active_account_name' => $account->name,
-            ]);
+            session(['active_account' => $account]);
         }
 
         return redirect(route('accounts.index'));
