@@ -16,7 +16,7 @@
                     {{$account->account_number }} {{ $account->name }}
                 </div>
                 <div>
-                    @if (Context::getHidden('active_account')->id == $account->id)
+                    @if (Context::get('active_account')->id == $account->id)
                         Active Account
                     @else
                     

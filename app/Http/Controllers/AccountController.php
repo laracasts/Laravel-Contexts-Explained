@@ -15,28 +15,22 @@ use Illuminate\View\View;
 class AccountController extends Controller
 {
     public function index() : View {
-        $accounts = request()->user()->accounts()->get();
-        Context::addHidden('active_account', session('active_account'));
-
-        Log::info('User viewed accounts.', [
-            'user_id' => Auth::user()->id,
-        ]);
-
+        $accounts = Context::get('user')->accounts()->get();
+        
         return view('accounts.index', compact('accounts'));
     }
 
     public function setActiveAccount(SetActiveAccountRequest $request) {
         $accountId = $request->input('active_account_id');
 
-        $account = $request->user()->accounts()->where('account_id', $accountId)->first();
+        $account = Context::get('user')->accounts()->where('account_id', $accountId)->first();
 
         if ($account) {
             session(['active_account' => $account]);
 
-            Context::add('account_id', $account->id);
-
             Log::info('User changed account', [
                 'user_id' => $request->user()->id,
+                'account_id' => $account->id,
             ]);
         }
         
