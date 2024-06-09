@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\AddContext;
 use App\Http\Middleware\LogRequests;
@@ -17,7 +18,6 @@ Route::middleware(['auth', AddContext::class])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -29,6 +29,10 @@ Route::middleware(['auth', AddContext::class])->group(function () {
         // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
+
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
 });
 
 
