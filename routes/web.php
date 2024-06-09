@@ -22,13 +22,13 @@ Route::middleware(['auth', AddContext::class])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware(LogRequests::class)->group(function () {
+    // Route::middleware(LogRequests::class)->group(function () {
         Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
         Route::post('/accounts/set-active', [AccountController::class, 'setActiveAccount'])
             ->name('accounts.setActiveAccount');
         // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    });
+    // });
 
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
     Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

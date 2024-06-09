@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContactUsRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\SetActiveAccountRequest;
+use App\Jobs\ContactUsJob;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,9 @@ class ContactController extends Controller
     }
 
     public function store(ContactUsRequest $request) {
-        
+        Context::addHidden('contactMessage', $request->input('contactMessage'));
+        ContactUsJob::dispatch();
+
         
         return redirect(route('dashboard'));
     }
