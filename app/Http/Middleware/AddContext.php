@@ -17,8 +17,17 @@ class AddContext
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Context::when(
+        //     Context::has('active_account'),
+        //     fn($context) => null,
+        //     fn($context) => $context->add('active_account', session('active_account'))
+        // );
+
+        if (!Context::has('active_account')) {
+            Context::add('active_account', session('active_account'));
+        }
+
         Context::add([
-            'active_account' => session('active_account'),
             'user' => Auth::user()
         ]);
 

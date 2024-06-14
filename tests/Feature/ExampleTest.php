@@ -5,19 +5,29 @@ use App\Models\User;
 use Illuminate\Support\Facades\Context;
 
 beforeEach(function() {
-    $user = User::factory()->create();
-    $account = Account::factory()->create([
+    $this->user = User::factory()->create();
+    $this->account = Account::factory()->create([
         'name' => "Foo's Guitars"
     ]);
 
-    $user->accounts()->save($account);
-
-    // Context::add('active_account', $account);
-    $this->actingAs($user)->withSession(['active_account' => $account]);
+    $this->user->accounts()->save($this->account);
+    $this->actingAs($this->user);
 });
 
 
-it('dashboard displays the account name', function() {
+it('dashboard displays the account name using context', function() {
+    Context::add('active_account', $this->account);
+
+    $this->get('/dashboard')
+        ->assertOk()
+        ->assertSee("Foo's Guitars");
+});
+
+it('dashboard displays the account name using session', function() {
+    Context::forget('active_account');
+    
+    $this->withSession(['active_account' => $this->account]);
+
     $this->get('/dashboard')
         ->assertOk()
         ->assertSee("Foo's Guitars");
