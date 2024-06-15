@@ -33,6 +33,18 @@ it('dashboard displays the account name using session', function() {
         ->assertSee("Foo's Guitars");
 });
 
+it('contact us queues 1 job', function() {
+    $this->withSession(['active_account' => $this->account]);
+
+    $this->post('/contact', [
+        'contactMessage' => 'Hello from the test!'
+    ])->assertStatus(302);
+
+    $stack = Context::get('queued_jobs');
+
+    expect(count($stack))->toBe(1);
+});
+
 
 
 // it('returns a successful response', function () {
